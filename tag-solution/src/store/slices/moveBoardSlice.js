@@ -5,7 +5,9 @@ export const moveBoardSlice = createSlice({
     initialState: {
         moving: false,
         deltaX: 0,
-        deltaY: 0
+        deltaY: 0,
+        height: 1080,
+        width: 1920
     },
     reducers: {
         startMoving: (state) => {
@@ -23,10 +25,16 @@ export const moveBoardSlice = createSlice({
         },
         setX: (state, action) => {
             state.deltaX = action.payload
+        },
+        setHeight: (state, action) => {
+            state.height = action.payload
+        },
+        setWidth: (state, action) => {
+            state.width = action.payload
         }
     }
 })
 
-export const { moveBoard, startMoving, endMoving, setY, setX } = moveBoardSlice.actions
+export const { moveBoard, startMoving, endMoving, setY, setX, setHeight, setWidth } = moveBoardSlice.actions
 
 export default moveBoardSlice.reducer

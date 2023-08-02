@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import '../scss/board.scss'
 import CellLine from './CellLine'
-import { endMoving, moveBoard, setY, setX, startMoving } from '../store/slices/moveBoardSlice'
+import { endMoving, moveBoard, setY, setX, startMoving, setWidth, setHeight } from '../store/slices/moveBoardSlice'
 import { useEffect, useRef } from 'react'
 
 const Board = () => {
@@ -20,8 +20,10 @@ const Board = () => {
     const dispatch = useDispatch()
 
     const xd = useEffect(() => {
-        dispatch(setY(-(windowHeight.current / 2)))
-        dispatch(setX(-(windowWidth.current / 2)))
+        dispatch(setWidth(width))
+        dispatch(setHeight(height))
+        dispatch(setY((-height + windowHeight.current) / 2))
+        dispatch(setX((-width + windowWidth.current) / 2))
     }, []);
 
     const onMouseDown = (e) => {
@@ -34,9 +36,9 @@ const Board = () => {
             let deltaX = e.nativeEvent.movementX
             let deltaY = e.nativeEvent.movementY
             if (deltaX + left > 0) deltaX = -left
-            if (deltaX + left < -width / 2) deltaX = -(width / 2 + left)
+            if (deltaX + left < -width + windowWidth.current) deltaX = -(width - windowWidth.current + left)
             if (deltaY + top > 0) deltaY = -top
-            if (deltaY + top < -height / 2) deltaY = -(height / 2 + top)
+            if (deltaY + top < -height + windowHeight.current) deltaY = -(height - windowHeight.current + top)
             const delta = {
                 deltaX,
                 deltaY
@@ -45,7 +47,6 @@ const Board = () => {
         }
     }
     const onMouseUp = (e) => {
-        console.log(e.button)
         if (e.button === 0) {
             dispatch(endMoving())
         }

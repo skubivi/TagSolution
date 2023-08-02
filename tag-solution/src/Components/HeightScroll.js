@@ -4,17 +4,19 @@ import { useRef } from 'react'
 
 const HeightScroll = () => {
     const windowHeight = useRef(window.innerHeight)
-    const max = windowHeight.current
+    const max = useSelector((state) => state.moveBoard.height)
     let temp = -useSelector((state) => state.moveBoard.deltaY)
     let percent = temp / max
-    let top = percent * windowHeight.current * 0.68
-    console.log(percent)
+    let top = percent * windowHeight.current * 0.8
+
+    const boardHeight = useSelector((state) => state.moveBoard.height)
+    const scrollHeight= windowHeight.current / boardHeight * 80
 
     const styleObj = {
         position: 'absolute',
         top: top + 'px',
         width: '2.5vw',
-        height: '12vh',
+        height: scrollHeight + 'vh',
         backgroundColor: 'black',
         borderRadius: '25px',
     }
