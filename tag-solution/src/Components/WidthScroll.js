@@ -12,8 +12,6 @@ const WidthScroll = () => {
     const boardWidth = useSelector((state) => state.moveBoard.width)
     const scrollWidth = windowWidth.current / boardWidth * 80
 
-    console.log(scrollWidth);
-
     const styleObj = {
         position: 'absolute',
         left: left + 'px',

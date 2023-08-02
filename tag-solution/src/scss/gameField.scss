@@ -4,3 +4,13 @@
     width: 60vmin;
     height: 60vmin;
 }
+
+button {
+    position: absolute;
+    width: 60vmin;
+    top: 95vh;
+    height: 5vh;
+    font-size: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+}
