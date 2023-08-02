@@ -1,4 +1,5 @@
 import Board from './Components/Board';
+import GameField from './Components/GameField';
 import HeightScroll from './Components/HeightScroll';
 import WidthScroll from './Components/WidthScroll';
 import './scss/app.scss';
@@ -6,9 +7,7 @@ import './scss/app.scss';
 function App() {
   return (
     <div className="App">
-      <Board />
-      <HeightScroll />
-      <WidthScroll />
+      <GameField />
     </div>
   );
 }

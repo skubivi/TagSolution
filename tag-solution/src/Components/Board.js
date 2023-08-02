@@ -63,10 +63,6 @@ const Board = () => {
         flexDirection: 'column'
     }
 
-    let cellLines = []
-    for (let i = 0; i < 40; i++) {
-        cellLines.push(<CellLine key={i}/>)
-    }
     return (
         <div className='Board' 
             onMouseDown={onMouseDown} 
@@ -76,7 +72,7 @@ const Board = () => {
             onMouseLeave={(e) => {disableScroll.off()}}
             style={styleObj}
         >
-            {cellLines}
+            
         </div>
     )
 }
