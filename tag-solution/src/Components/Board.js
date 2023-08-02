@@ -3,6 +3,7 @@ import '../scss/board.scss'
 import CellLine from './CellLine'
 import { endMoving, moveBoard, setY, setX, startMoving, setWidth, setHeight } from '../store/slices/moveBoardSlice'
 import { useEffect, useRef } from 'react'
+import disableScroll from 'disable-scroll'
 
 const Board = () => {
     const moving = useSelector((state) => state.moveBoard.moving)
@@ -71,6 +72,8 @@ const Board = () => {
             onMouseDown={onMouseDown} 
             onMouseMove={onMouseMove} 
             onMouseUp={onMouseUp}
+            onMouseEnter={(e) => {disableScroll.on()}}
+            onMouseLeave={(e) => {disableScroll.off()}}
             style={styleObj}
         >
             {cellLines}
