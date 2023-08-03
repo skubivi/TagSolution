@@ -7,24 +7,24 @@ import { checkedPush, end, needToCheckPush, needToCheckRemove, setStartPoint } f
 const GameField = () => {
     const numbers = useSelector((state) => state.gameField.field)
     let lines = []
-    for (let i = 0; i <  3; i++) {
+    for (let i = 0; i <  4; i++) {
         lines.push(<CellLine key={i} numbers={numbers[i]}/>)
     } 
     const dispatch = useDispatch()
 
+    //Верно
     const heuristic = (field) => {
         let sum = 0;
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
                 let x
                 let y
                 if (field[i][j] === 0) {
-                    x = 2
-                    y = 2
+                    continue
                 }
                 else {
-                    y = (field[i][j] - 1) % 3
-                    x = (field[i][j] - 1 - y) / 3
+                    y = (field[i][j] - 1) % 4
+                    x = (field[i][j] - 1 - y) / 4
                 }
                 let temp1 = i - x
                 let temp2 = j - y
@@ -40,20 +40,20 @@ const GameField = () => {
         let result = 0
         let used = []
         let temp = [0, 0, 0]
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if ((field[i][j] / 3 <= i + 1) && (field[i][j] / 3 > i) && (field[i][j] !== i * 3 + 1 + j) && (field[i][j] !== 0)) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                if ((field[i][j] / 4 <= i + 1) && (field[i][j] / 4 > i) && (field[i][j] !== i * 4 + 1 + j) && (field[i][j] !== 0)) {
                     temp[i] += 1
                 }
             }
         }
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             if (temp[i] >= 2) {
                 let k = 0
                 result += 2
-                for (let j = 0; j < 3; j++) {
+                for (let j = 0; j < 4; j++) {
                     if (k >= 2) break
-                    if ((field[i][j] / 3 <= i + 1) && (field[i][j] / 3 > i) && (field[i][j] !== i * 3 + 1 + j) && (field[i][j] !== 0)) {
+                    if ((field[i][j] / 4 <= i + 1) && (field[i][j] / 4 > i) && (field[i][j] !== i * 4 + 1 + j) && (field[i][j] !== 0)) {
                         used.push(field[i][j])
                         k+=1
                     }
@@ -61,14 +61,14 @@ const GameField = () => {
             }
         }
         temp = [0, 0, 0]
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if ((field[i][j] % 3 === ((j + 1) % 3)) && (field[i][j] !== i * 3 + 1 + j) && (field[i][j] !== 0) && !(used.some((element) => element === field[i][j]))) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                if ((field[i][j] % 4 === ((j + 1) % 4)) && (field[i][j] !== i * 4 + 1 + j) && (field[i][j] !== 0) && !(used.some((element) => element === field[i][j]))) {
                     temp[j] += 1
                 }
             }
         }
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             if (temp[i] >= 2) {
                 result += 2
             }
@@ -76,13 +76,14 @@ const GameField = () => {
         return result
     }
 
-    const makePoint = (field, x, y, g, parent) => {
-        const h = heuristic(field) + linearConflict(field)
+
+    //Верно
+    const makePoint = (field, id, g, parent) => {
+        const h = heuristic(field)
         const f = h + g
         const point = {
             field,
-            x,
-            y,
+            id,
             g,
             h,
             f,
@@ -91,11 +92,14 @@ const GameField = () => {
         return point
     }
 
-    const makeNeighbors = (point) => {
+
+    //Верно
+    const makeNeighbors = (point, id) => {
+        let tempId = id
         let x
         let y
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
                 if (point.field[i][j] === 0) {
                     x = i
                     y = j
@@ -104,66 +108,61 @@ const GameField = () => {
         }
         let result = []
         let newG = point.g + 1
-        if (x < 2) {
-            let newX = point.x
-            let newY = point.y + 1
-            let newParent = 'top'
+        let newParent = point.id
+        if (x < 3) {
+            tempId++
             let newField = point.field.slice()
             let temp = newField[x+1][y]
             newField = newField.map((n, i) => i === x
             ? n.map((m, j) => j === y ? temp : m) : n)
-            newField = newField.map((n, i) => i === x + 1
+            newField = newField.map((n, i) => i === (x + 1)
             ? n.map((m, j) => j === y ? 0 : m) : n)
-            let newPoint = makePoint(newField, newX, newY, newG, newParent)
+            let newPoint = makePoint(newField, tempId, newG, newParent)
             result.push(newPoint)
         }
         if (x > 0) {
-            let newX = point.x
-            let newY = point.y - 1
-            let newParent = 'bottom'
+            tempId++
             let newField = point.field.slice()
             let temp = newField[x-1][y]
             newField = newField.map((n, i) => i === x
             ? n.map((m, j) => j === y ? temp : m) : n)
-            newField = newField.map((n, i) => i === x - 1
+            newField = newField.map((n, i) => i === (x - 1)
             ? n.map((m, j) => j === y ? 0 : m) : n)
-            let newPoint = makePoint(newField, newX, newY, newG, newParent)
+            let newPoint = makePoint(newField, tempId, newG, newParent)
             result.push(newPoint)
         }
         if (y > 0) {
-            let newX = point.x - 1
-            let newY = point.y
-            let newParent = 'right'
+            tempId++
             let newField = point.field.slice()
             let temp = newField[x][y - 1]
             newField = newField.map((n, i) => i === x
             ? n.map((m, j) => j === y ? temp : m) : n)
             newField = newField.map((n, i) => i === x
-            ? n.map((m, j) => j === y - 1 ? 0 : m) : n)
-            let newPoint = makePoint(newField, newX, newY, newG, newParent)
+            ? n.map((m, j) => j === (y - 1) ? 0 : m) : n)
+            let newPoint = makePoint(newField, tempId, newG, newParent)
             result.push(newPoint)
         }
-        if (y < 2) {
-            let newX = point.x + 1
-            let newY = point.y
-            let newParent = 'left'
+        if (y < 3) {
+            tempId++
             let newField = point.field.slice()
             let temp = newField[x][y + 1]
             newField = newField.map((n, i) => i === x
             ? n.map((m, j) => j === y ? temp : m) : n)
             newField = newField.map((n, i) => i === x
-            ? n.map((m, j) => j === y + 1 ? 0 : m) : n)
-            let newPoint = makePoint(newField, newX, newY, newG, newParent)
+            ? n.map((m, j) => j === (y + 1) ? 0 : m) : n)
+            let newPoint = makePoint(newField, tempId, newG, newParent)
             result.push(newPoint)
         }
         return result
     }
 
+
+    //верно
     const include = (point, arr) => {
         for (let i = 0; i < arr.length; i++) {
             let check = true
-            for (let j = 0; j < 3; j++) {
-                for (let k = 0; k < 3; k++) {
+            for (let j = 0; j < 4; j++) {
+                for (let k = 0; k < 4; k++) {
                     if (!(point.field[j][k] === arr[i].field[j][k])) {
                         check = false
                     }
@@ -175,28 +174,29 @@ const GameField = () => {
     }
 
     const aStarAlgo = (startPoint) => {
+        let id = 0
         let needToCheckTemp = []
         let checkedTemp = []
         dispatch(setStartPoint(startPoint))
         dispatch(needToCheckPush(startPoint))
         needToCheckTemp.push(startPoint)
-        let k = 0
         while (needToCheckTemp.length > 0) {
-            k++
+            
             let current = needToCheckTemp[0]
             for (let i = 1; i < needToCheckTemp.length; i++) {
                 if (current.f > needToCheckTemp[i].f) current = needToCheckTemp[i]
             }
             if (current.h === 0) {
+                dispatch(checkedPush(current))
                 dispatch(end())
-                console.log(checkedTemp.length);
                 return true
             }
             dispatch(needToCheckRemove(current))
-            needToCheckTemp = needToCheckTemp.filter((point) => {return !(point.x === current.x && point.y === current.y)})
+            needToCheckTemp = needToCheckTemp.filter((point) => {return !(point.id === current.id)})
             dispatch(checkedPush(current))
             checkedTemp.push(current)
-            let neighbors = makeNeighbors(current)
+            let neighbors = makeNeighbors(current, id)
+            id += neighbors.length
             for (let i = 0; i < neighbors.length; i++) {
                 if (!include(neighbors[i], checkedTemp)) {
                     if (!include(neighbors[i], needToCheckTemp)) {
@@ -205,14 +205,14 @@ const GameField = () => {
                     }
                 }
             }
+            console.log(needToCheckTemp.length);
         }
-        console.log(checkedTemp.length);
         return false
     }
 
     const buttonClickHandler = (e) => {
         dispatch(nextWindow())
-        let startPoint = makePoint(numbers, 0, 0, 0, 'none')
+        let startPoint = makePoint(numbers, 0, 0, 'none')
         let xd = aStarAlgo(startPoint)
         console.log(xd);
     } 

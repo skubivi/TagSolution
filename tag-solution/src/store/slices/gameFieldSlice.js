@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const gameFieldSlice = createSlice({
     name: 'gameField',
     initialState: {
-        field: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
+        field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]],
         ready: false
     },
     reducers: {
@@ -13,8 +13,8 @@ export const gameFieldSlice = createSlice({
             let x1
             let y1
             let payload = action.payload === '' ? '0' : action.payload
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
                     if (state.field[i][j] + '' === payload) {
                         x = i
                         y = j

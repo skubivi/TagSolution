@@ -10,8 +10,7 @@ export const aStarSlice = createSlice({
                 [9, 10, 11, 12],
                 [13, 14, 15, 0]
             ],
-            x: 0,
-            y: 0,
+            id: 0,
             g: 0,
             h: 0,
             f: 0,
@@ -19,10 +18,6 @@ export const aStarSlice = createSlice({
         },
         needToCheck: [],
         checked: [],
-        right: 0,
-        left: 0,
-        top: 0,
-        bottom: 0,
         ended: false
     },
     reducers: {
@@ -31,16 +26,12 @@ export const aStarSlice = createSlice({
         },
         end: (state) => {
             state.ended = true
+            state.needToCheck = []
         },
         needToCheckPush: (state, action) => {
             let temp = state.needToCheck
             temp.push(action.payload)
             state.needToCheck = temp
-
-            if (action.payload.x < -state.left) state.left = -action.payload.x
-            if (action.payload.x > state.right) state.right = action.payload.x
-            if (action.payload.y < -state.bottom) state.bottom = -action.payload.y
-            if (action.payload.y > state.top) state.top = action.payload.y
         },
         checkedPush: (state, action) => {
             let temp = state.checked
@@ -49,7 +40,7 @@ export const aStarSlice = createSlice({
         },
         needToCheckRemove: (state, action) => {
             let temp = state.needToCheck
-            state.needToCheck = temp.filter((point) => {return !(point.x === action.payload.x && point.y === action.payload.y)})
+            state.needToCheck = temp.filter((point) => {return !(point.id === action.payload.id)})
         }
     }
 })
