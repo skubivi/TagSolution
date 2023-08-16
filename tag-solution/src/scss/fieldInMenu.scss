@@ -1,0 +1,35 @@
+.NeighborsMenu{
+    .FieldWrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        height: 140px;
+        .Field4 {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            .Line {
+                display: flex;
+                flex-direction: row;
+                .Field {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 30px;
+                    min-height: 30px;
+                    border-color: black;
+                    border-style: solid;
+                    border-width: 1px;
+                }
+            }
+        }
+    }
+    
+
+    .FieldWrapper:hover {
+        cursor: pointer;
+        background-color: rgb(233, 233, 233);
+    }
+}

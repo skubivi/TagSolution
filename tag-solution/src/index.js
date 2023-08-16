@@ -5,12 +5,17 @@ import store from './store/store';
 import { Provider } from 'react-redux';
 import React from 'react';
 
+document.addEventListener("contextmenu", function(e) {
+  if(e.target.className === "Field") {
+      e.preventDefault();
+      e.stopPropagation();
+  }
+}, true)
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <App />
   </Provider>
 );
 

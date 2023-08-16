@@ -4,7 +4,8 @@ export const gameFieldSlice = createSlice({
     name: 'gameField',
     initialState: {
         field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]],
-        ready: false
+        ready: false,
+        ready1: false
     },
     reducers: {
         makeMove: (state, action) => {
@@ -33,10 +34,13 @@ export const gameFieldSlice = createSlice({
         },
         nextWindow: (state) => {
             state.ready = true
+        },
+        setReady: (state) => {
+            state.ready1 = true
         }
     }
 })
 
-export const { makeMove, nextWindow } = gameFieldSlice.actions
+export const { makeMove, nextWindow, setReady } = gameFieldSlice.actions
 
 export default gameFieldSlice.reducer

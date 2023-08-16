@@ -1,0 +1,77 @@
+
+.container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .LoaderScreen {
+        width: 100%;
+        height: 100%;
+        border: solid 5px black;
+        margin-left: 100vw;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid black;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        } 
+    }
+
+    .start {
+        animation-duration: 2s;
+        animation-name: slidein;
+        margin-left: -5px;
+    }
+
+    @keyframes slidein {
+        from {
+            margin-left: 100vw
+        }
+        to {
+            margin-left: -5px
+        }
+    }
+
+    .end {
+        animation-duration: 2s;
+        animation-name: slideout;
+        margin-left: 100vw;
+    }
+
+    @keyframes slideout {
+        from {
+            margin-left: -5px;
+        }
+        to {
+            margin-left: 100vw;
+        }
+    }
+}
+
+.beforeStart {
+    display: none;
+}
+
+.afterEnd {
+    display: none;
+}
+
+

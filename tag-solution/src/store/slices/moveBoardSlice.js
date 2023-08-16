@@ -7,7 +7,11 @@ export const moveBoardSlice = createSlice({
         deltaX: 0,
         deltaY: 0,
         height: 1080,
-        width: 1920
+        width: 1920,
+        targetX: 0,
+        targetY: 0,
+        movingToTarget: false,
+        intevalId: 'none'
     },
     reducers: {
         startMoving: (state) => {
@@ -19,6 +23,26 @@ export const moveBoardSlice = createSlice({
         moveBoard: (state, action) => {
             state.deltaX += action.payload.deltaX
             state.deltaY += action.payload.deltaY
+        },
+        moveX: (state, action) => {
+            state.deltaX += action.payload
+        },
+        moveY: (state, action) => {
+            state.deltaY += action.payload
+        },
+        setTarget: (state, action) => {
+            state.movingToTarget = true
+            state.targetX = action.payload.targetX
+            state.targetY = action.payload.targetY
+        },
+        removeTarget: (state) => {
+            state.movingToTarget = false
+        },
+        setIntevalId: (state, action) => {
+            state.intevalId = action.payload
+        },
+        removeIntervalId: (state) => {
+            state.intevalId = 'none'
         },
         setY: (state, action) => {
             state.deltaY = action.payload
@@ -35,6 +59,6 @@ export const moveBoardSlice = createSlice({
     }
 })
 
-export const { moveBoard, startMoving, endMoving, setY, setX, setHeight, setWidth } = moveBoardSlice.actions
+export const { moveBoard, startMoving, endMoving, setY, setX, setHeight, setWidth, moveX, moveY, setTarget, removeTarget, setIntevalId, removeIntervalId } = moveBoardSlice.actions
 
 export default moveBoardSlice.reducer

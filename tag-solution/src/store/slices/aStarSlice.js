@@ -16,6 +16,7 @@ export const aStarSlice = createSlice({
             f: 0,
             parent: 'none'
         },
+        size: 0,
         needToCheck: [],
         checked: [],
         ended: false
@@ -37,14 +38,18 @@ export const aStarSlice = createSlice({
             let temp = state.checked
             temp.push(action.payload)
             state.checked = temp
+            state.size = state.size + 1
         },
         needToCheckRemove: (state, action) => {
             let temp = state.needToCheck
             state.needToCheck = temp.filter((point) => {return !(point.id === action.payload.id)})
+        },
+        checkedClear: (state) => {
+            state.checked = []
         }
     }
 })
 
-export const { setStartPoint, end, needToCheckPush, checkedPush, needToCheckRemove } = aStarSlice.actions
+export const { setStartPoint, end, needToCheckPush, checkedPush, needToCheckRemove, checkedClear } = aStarSlice.actions
 
 export default aStarSlice.reducer

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import '../scss/gameField.scss'
 import CellLine from './CellLine'
-import { nextWindow } from '../store/slices/gameFieldSlice'
+import { nextWindow, setReady } from '../store/slices/gameFieldSlice'
 import { checkedPush, end, needToCheckPush, needToCheckRemove, setStartPoint } from '../store/slices/aStarSlice'
 
 const GameField = () => {
@@ -189,6 +189,7 @@ const GameField = () => {
             if (current.h === 0) {
                 dispatch(checkedPush(current))
                 dispatch(end())
+                dispatch(setReady())
                 return true
             }
             dispatch(needToCheckRemove(current))
@@ -205,7 +206,6 @@ const GameField = () => {
                     }
                 }
             }
-            console.log(needToCheckTemp.length);
         }
         return false
     }
@@ -213,8 +213,9 @@ const GameField = () => {
     const buttonClickHandler = (e) => {
         dispatch(nextWindow())
         let startPoint = makePoint(numbers, 0, 0, 'none')
-        let xd = aStarAlgo(startPoint)
-        console.log(xd);
+        setTimeout(() => {
+            aStarAlgo(startPoint)
+        }, 2500)
     } 
     return (
         <div className='wrapper'>
