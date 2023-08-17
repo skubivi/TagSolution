@@ -4,7 +4,7 @@ import { endMoving, moveBoard, setY, setX, startMoving, setWidth, setHeight, rem
 import { useEffect, useRef, useState } from 'react'
 import disableScroll from 'disable-scroll'
 import FieldOnBoard from './FieldOnBoard'
-import { fieldsPush } from '../store/slices/fieldsOnBoardSlice'
+import { fieldsPush, setFieldsOnBoardReady } from '../store/slices/fieldsOnBoardSlice'
 import { checkedClear } from '../store/slices/aStarSlice'
 import { clear } from '../store/slices/neighborsSlice'
 
@@ -77,6 +77,7 @@ const Board = () => {
             i++
         }
         dispatch(checkedClear())
+        dispatch(setFieldsOnBoardReady())
     }
 
     let styleObj = {
@@ -167,6 +168,19 @@ const Board = () => {
         }
     }
 
+    const highlight = useSelector((state) => state.fieldsOnBoard.highlight)
+    const highlightenElement = useSelector((state) => state.fieldsOnBoard.highlightenElement)
+
+    const highlightPointStyle = {
+        position: 'absolute',
+        backgroundColor: 'grey',
+        width: '300px',
+        height: '300px',
+        borderRadius: '20px',
+        left: getCenterWidth() + highlightenElement[0] * 360 - 26 + 'px',
+        top: getCenterHeight() + highlightenElement[1] * 360 - 26 + 'px'
+    }
+
     return (
         <div className='Board' 
             onMouseDown={onMouseDown} 
@@ -176,6 +190,7 @@ const Board = () => {
             onMouseLeave={(e) => {disableScroll.off()}}
             style={styleObj}
         >
+            <div style={highlight ? highlightPointStyle : {display: 'none'}} />
             {fields}
         </div>
     )

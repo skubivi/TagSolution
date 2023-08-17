@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 import '../scss/fieldInMenu.scss'
 import { useRef } from 'react'
-import { moveX, moveY, setTarget } from '../store/slices/moveBoardSlice'
-import { clear, setNeighbors } from '../store/slices/neighborsSlice'
+import { setTarget } from '../store/slices/moveBoardSlice'
+import { clear } from '../store/slices/neighborsSlice'
+import { disableHighlight, highlightElement } from '../store/slices/fieldsOnBoardSlice'
 
 const FieldInMenu = (props) => {
     const numbers = props.field.field
@@ -15,14 +16,15 @@ const FieldInMenu = (props) => {
     const width = useSelector((state) => state.moveBoard.width)
     const height = useSelector((state) => state.moveBoard.height)
 
-    const allFields = useSelector((state) => state.fieldsOnBoard.fields)
-    const allFieldsSize = useSelector((state) => state.fieldsOnBoard.size)
-
     const getCenterWidth = () => {
         return width / 2 - (windowWidth.current / 2)
     }
     const getCenterHeight = () => {
         return height / 2 - (windowHeight.current / 2)
+    }
+
+    const disable = () => {
+        dispatch(disableHighlight())
     }
 
     const clickHandler = (e) => {
@@ -33,10 +35,15 @@ const FieldInMenu = (props) => {
         }
         dispatch(setTarget(target))
         dispatch(clear())
+        disable()
+    }
+
+    const highlightPoint = () => {
+        dispatch(highlightElement([props.field.x, props.field.y]))
     }
 
     return (
-        <div className='FieldWrapper' onClick={clickHandler}>
+        <div className='FieldWrapper' onClick={clickHandler} onMouseEnter={highlightPoint} onMouseLeave={disable}>
             <div className="Field4">
                 <div className="Line">
                     <div className="Field">{numbers[0][0] === 0 ? '' : numbers[0][0]}</div>

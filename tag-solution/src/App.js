@@ -1,16 +1,17 @@
 import { useSelector } from 'react-redux';
 import Board from './Components/Board';
 import GameField from './Components/GameField';
-import HeightScroll from './Components/HeightScroll';
-import WidthScroll from './Components/WidthScroll';
 import './scss/app.scss';
 import disableScroll from 'disable-scroll'
 import LoaderScreen from './Components/LoaderScreen';
 import NeighborsMenu from './Components/NeighborsMenu';
+import Minimap from './Components/Minimap';
 
 function App() {
   let firstWindow = !useSelector((state) => state.gameField.ready)
   let secondWindow = !useSelector((state) => state.gameField.ready1)
+  let fieldsReady = useSelector((state) => state.fieldsOnBoard.ready)
+
   const start = () => {
     return !firstWindow
   }
@@ -28,8 +29,7 @@ function App() {
     >
       {secondWindow && <GameField />}
       {!secondWindow && <Board />}
-      {!secondWindow && <HeightScroll />}
-      {!secondWindow && <WidthScroll />}
+      {fieldsReady && <Minimap />}
       <LoaderScreen start={start()} end={end()} />
       {showNeighbors && <NeighborsMenu neighbors={neighbors}/>}
     </div>

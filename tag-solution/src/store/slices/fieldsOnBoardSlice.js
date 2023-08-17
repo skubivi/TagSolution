@@ -4,7 +4,10 @@ export const fieldsOnBoardSlice = createSlice({
     name: 'aStar',
     initialState: {
         fields: [],
-        size: 0
+        size: 0,
+        ready: false,
+        highlight: false,
+        highlightenElement: 'none'
     },
     reducers: {
         fieldsPush: (state, action) => {
@@ -13,9 +16,19 @@ export const fieldsOnBoardSlice = createSlice({
             state.fields = temp
             state.size += 1
         },
+        setFieldsOnBoardReady: (state) => {
+            state.ready = true
+        },
+        highlightElement: (state, action) => {
+            state.highlight = true
+            state.highlightenElement = action.payload
+        },
+        disableHighlight: (state) => {
+            state.highlight = false
+        }
     }
 })
 
-export const { fieldsPush } = fieldsOnBoardSlice.actions
+export const { fieldsPush, setFieldsOnBoardReady, highlightElement, disableHighlight } = fieldsOnBoardSlice.actions
 
 export default fieldsOnBoardSlice.reducer
