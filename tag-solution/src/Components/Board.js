@@ -130,7 +130,6 @@ const Board = () => {
                     dispatch(moveY(-1))
                     currentY -= 1
                 }
-                console.log(Math.abs(currentY - targetY));
             }, 1)
             dispatch(setIntevalId(timer))
         }
