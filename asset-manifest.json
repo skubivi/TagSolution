@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/TagSolution/static/css/main.a4e29ac9.css",
+    "main.js": "/TagSolution/static/js/main.ef3c0a1d.js",
+    "static/js/787.cbcfc49e.chunk.js": "/TagSolution/static/js/787.cbcfc49e.chunk.js",
+    "index.html": "/TagSolution/index.html",
+    "main.a4e29ac9.css.map": "/TagSolution/static/css/main.a4e29ac9.css.map",
+    "main.ef3c0a1d.js.map": "/TagSolution/static/js/main.ef3c0a1d.js.map",
+    "787.cbcfc49e.chunk.js.map": "/TagSolution/static/js/787.cbcfc49e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a4e29ac9.css",
+    "static/js/main.ef3c0a1d.js"
+  ]
+}
